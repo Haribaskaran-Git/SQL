@@ -188,10 +188,12 @@ update donations set shelterID=7  where donationID=6;
 update donations set shelterID=9  where donationID=10;
 
 select * from donations;
-  select s.Name,sum(d.donationAmount) as TotalAmount from
-shelters s inner join donations  d on
-s.shelterID=d.shelterID 
-group by s.Name;
+Select s.Name,
+    SUM(d.DonationAmount) as TotalAmount 
+from Shelters s 
+inner join Donations d on s.ShelterID = d.ShelterID 
+group by s.Name;
+
 
 
 
@@ -269,6 +271,10 @@ where p.AvailableForAdoption = 1;
 
 
 -- 13. Find the total number of participants in events organized by shelters located in specific city. Example: City=Chennai
+select * from shelters;
+select * from participants;
+select * from adoptionevents;
+
 Select COUNT(*) as TotalParticipants from Participants p
 inner join AdoptionEvents ae on p.EventID = ae.EventID
 inner join Shelters s on p.ParticipantID = s.ShelterID
