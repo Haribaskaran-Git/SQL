@@ -236,7 +236,7 @@ group by s.Name;
 
 
 -- 9. Write an SQL query that retrieves the names of pets from the "Pets" table that do not have an owner (i.e., where "OwnerID" is null). Include the pet's name, age, breed, and type in the result set.
--- Write an SQL query to retrieve a list of electronic gadgets along with their corresponding categories.
+
 select * from pets;
 
 
