@@ -274,6 +274,7 @@ inner join AdoptionEvents ae on p.EventID = ae.EventID
 inner join Shelters s on p.ParticipantID = s.ShelterID
 where s.Location = 'Chennai';
 
+
 -- 14. Retrieve a list of unique breeds for pets with ages between 1 and 5 years.
 select DISTINCT Breed from Pets
 where Age BETWEEN 1 AND 5;
