@@ -154,11 +154,46 @@ where p.EventId = 4;
 
 
 -- 7. Create a stored procedure in SQL that allows a shelter to update its information (name and location) in the "Shelters" table. Use parameters to pass the shelter ID and the new information. Ensure that the procedure performs the update and handles potential errors, such as an invalid shelter ID.
+DELIMITER //
+
+Create procedure UpdateShelterInfo (
+    IN p_ShelterID INT,
+    IN p_NewName VARCHAR(255),
+    IN p_NewLocation VARCHAR(255)
+)
+begin
+    declare v_RowCount INT;
+    -- if exists
+    select COUNT(*) into v_RowCount from Shelters where ShelterID = p_ShelterID;
+    IF v_RowCount = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Invalid shelter ID';
+    ELSE
+        -- Update shelter information
+        update Shelters
+        SET Name = p_NewName, Location = p_NewLocation
+        where ShelterID = p_ShelterID;
+    END IF;
+END//
+
+DELIMITER ;
+
+
+
 -- 8. Write an SQL query that calculates and retrieves the total donation amount for each shelter (by shelter name) from the "Donations" table. The result should include the shelter name and the total donation amount. Ensure that the query handles cases where a shelter has received no donations.
-SELECT S.Name AS ShelterName, COALESCE(SUM(D.DonationAmount), 0) AS TotalDonationAmount
-FROM Shelters S
-LEFT JOIN Donations D ON S.ShelterID = D.ShelterID
-GROUP BY S.Name;
+alter table donations add shelterID int;
+update donations set shelterID=1 where donationID in (1,2,3,9);
+update donations set shelterID=3 where donationID in(5,4,7,8);
+update donations set shelterID=7  where donationID=6;
+update donations set shelterID=9  where donationID=10;
+
+select * from donations;
+  select s.Name,sum(d.donationAmount) as TotalAmount from
+shelters s inner join donations  d on
+s.shelterID=d.shelterID 
+group by s.Name;
+
+
 
 -- 9. Write an SQL query that retrieves the names of pets from the "Pets" table that do not have an owner (i.e., where "OwnerID" is null). Include the pet's name, age, breed, and type in the result set.
 -- Write an SQL query to retrieve a list of electronic gadgets along with their corresponding categories.
@@ -180,10 +215,18 @@ set Ownerid = case
     else NULL 
 end
 where petid in (1,2,3,4,5,6,7,8,9,10);
+
 Select Name, Age, Breed, Type from Pets
 where OwnerID IS NULL;
 
 -- 10. Write an SQL query that retrieves the total donation amount for each month and year (e.g., January 2023) from the "Donations" table. The result should include the month-year and the corresponding total donation amount. Ensure that the query handles cases where no donations were made in a specific month-year.
+select
+    DATE_FORMAT(DonationDate, '%Y-%m') AS YearMonth,
+    SUM(DonationAmount) AS TotalDonationAmount
+From Donations
+group by DATE_FORMAT(DonationDate, '%Y-%m')
+order by YearMonth;
+
 
 -- 11. Retrieve a list of distinct breeds for all pets that are either aged between 1 and 3 years or older than 5 years.
 Select DISTINCT Breed
@@ -196,6 +239,7 @@ where (Age BETWEEN 1 AND 3) OR (Age > 5);
 Alter Table Pets
 add ShelterID INT,
 add CONSTRAINT ShelterID FOREIGN KEY (ShelterID) REFERENCES Shelters(ShelterID);
+select * from pets;
 
 update pets 
 set ShelterID = case 
@@ -239,10 +283,78 @@ select * from Pets
 where OwnerID IS NULL;
 
 -- 16. Retrieve the names of all adopted pets along with the adopter's name from the 'Adoption' and 'User' tables.
+-- we does not contains users and adoption table so we have to create it and insert some values.
+
+-- Create Users table
+CREATE TABLE Users (
+    UserID INT PRIMARY KEY,
+    Name VARCHAR(255)
+);
+
+-- Create Adoption table
+CREATE TABLE Adoption (
+    AdoptionID INT PRIMARY KEY,
+    UserID INT,
+    PetID INT,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (PetID) REFERENCES Pets(PetID)
+);
+
+
+INSERT INTO Users (UserID, Name) VALUES
+(1, 'John Doe'),
+(2, 'Jane Smith'),
+(3, 'Michael Johnson'),
+(4, 'Emily Johnson'),
+(5, 'David Brown'),
+(6, 'Emma Wilson'),
+(7, 'Christopher Lee'),
+(8, 'Taylor');
+
+INSERT INTO Adoption (AdoptionID, UserID, PetID) VALUES
+(1, 1, 1),
+(2, 2, 2),
+(3, 3, 3),
+(4, 4, 4),
+(5, 5, 5),
+(6, 6, 6),
+(7, 7, 7),
+(8, 8, 8),
+(9, 5, 9);
+
+select p.Name AS PetName, u.Name AS AdopterName
+from Adoption a
+inner join Pets p ON a.PetID = p.PetID
+inner join Users u ON a.UserID = u.UserID;
 
 
 
 -- 17. Retrieve a list of all shelters along with the count of pets currently available for adoption in each shelter.
+select s.ShelterID,s.Name,s.Location,(
+        select COUNT(*) from Pets p
+        where p.ShelterID = s.ShelterID
+        and p.AvailableForAdoption = 1
+    ) as PetsAvailableForAdoption from Shelters s;
+
+
 -- 18. Find pairs of pets from the same shelter that have the same breed.
+select p1.PetID,p1.Name,p1.Breed,p2.PetID,p2.Name
+from Pets p1,Pets p2
+where p1.ShelterID = p2.ShelterID
+    and p1.PetID < p2.PetID 
+    and p1.Breed = p2.Breed;
+
+
 -- 19. List all possible combinations of shelters and adoption events.
--- 20. Determine the shelter that has the highest
+select s.ShelterID,s.Name AS ShelterName,ae.EventID,ae.EventName
+from Shelters s
+cross join AdoptionEvents ae;
+
+
+-- 20. Determine the shelter that has the highest number of adopted pets.
+Select ShelterID,Name,
+    (select COUNT(*) from Adoption
+        where PetID in (select PetID from Pets where ShelterID = s.ShelterID)
+    ) as AdoptedPetsCount
+from Shelters s
+order by AdoptedPetsCount DESC limit 1;
