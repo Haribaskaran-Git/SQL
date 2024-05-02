@@ -132,6 +132,44 @@ select * from Donations;
 select * from AdoptionEvents;
 select * from Participants;
 
+Alter Table Pets
+add ShelterID INT,
+add CONSTRAINT ShelterID FOREIGN KEY (ShelterID) REFERENCES Shelters(ShelterID);
+select * from pets;
+update pets 
+set ShelterID = case 
+    when petid = 1 then 1
+    when petid = 2 then 2
+    when petid = 3 then 3
+    when petid = 4 then 4
+    when petid = 5 then 5
+    when petid = 6 then 6
+    when petid = 7 then 7
+    when petid = 8 then 8
+    when petid = 9 then 9
+    when petid = 10 then 10
+    else NULL 
+end
+where petid in (1,2,3,4,5,6,7,8,9,10);
+
+alter table pets
+add OwnerId int; 
+update pets 
+set Ownerid = case 
+    when petid = 1 then 10
+    when petid = 2 then 11
+    when petid = 3 then 12
+    when petid = 4 then NULL
+    when petid = 5 then 14
+    when petid = 6 then 17
+    when petid = 7 then 18
+    when petid = 8 then 19
+    when petid = 9 then 20
+    when petid = 10 then NULL
+    else NULL 
+end
+where petid in (1,2,3,4,5,6,7,8,9,10);
+
 -- TASKS
 -- 1. Provide a SQL script that initializes the database for the Pet Adoption Platform ”PetPals”.
     -- created
@@ -200,23 +238,7 @@ group by s.Name;
 -- 9. Write an SQL query that retrieves the names of pets from the "Pets" table that do not have an owner (i.e., where "OwnerID" is null). Include the pet's name, age, breed, and type in the result set.
 -- Write an SQL query to retrieve a list of electronic gadgets along with their corresponding categories.
 select * from pets;
-alter table pets
-add OwnerId int; 
-update pets 
-set Ownerid = case 
-    when petid = 1 then 10
-    when petid = 2 then 11
-    when petid = 3 then 12
-    when petid = 4 then NULL
-    when petid = 5 then 14
-    when petid = 6 then 17
-    when petid = 7 then 18
-    when petid = 8 then 19
-    when petid = 9 then 20
-    when petid = 10 then NULL
-    else NULL 
-end
-where petid in (1,2,3,4,5,6,7,8,9,10);
+
 
 Select Name, Age, Breed, Type from Pets
 where OwnerID IS NULL;
@@ -238,26 +260,8 @@ where (Age BETWEEN 1 AND 3) OR (Age > 5);
 -- 12. Retrieve a list of pets and their respective shelters where the pets are currently available for adoption.
 -- for joining two table there should be a reference in both table 
 -- but it does not contains ,so we are going to add shelters id in pets table
-Alter Table Pets
-add ShelterID INT,
-add CONSTRAINT ShelterID FOREIGN KEY (ShelterID) REFERENCES Shelters(ShelterID);
-select * from pets;
 
-update pets 
-set ShelterID = case 
-    when petid = 1 then 1
-    when petid = 2 then 2
-    when petid = 3 then 3
-    when petid = 4 then 4
-    when petid = 5 then 5
-    when petid = 6 then 6
-    when petid = 7 then 7
-    when petid = 8 then 8
-    when petid = 9 then 9
-    when petid = 10 then 10
-    else NULL 
-end
-where petid in (1,2,3,4,5,6,7,8,9,10);
+
 Select
     p.Name AS PetName, 
     p.Age AS PetAge, 
