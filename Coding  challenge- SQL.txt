@@ -326,8 +326,7 @@ INSERT INTO Adoption (AdoptionID, UserID, PetID) VALUES
 (5, 5, 5),
 (6, 6, 6),
 (7, 7, 7),
-(8, 8, 8),
-(9, 5, 9);
+(8, 8, 8);
 
 select p.Name AS PetName, u.Name AS AdopterName
 from Adoption a
