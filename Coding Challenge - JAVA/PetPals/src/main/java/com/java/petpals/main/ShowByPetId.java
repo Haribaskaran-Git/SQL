@@ -27,5 +27,5 @@ public class ShowByPetId {
 			e.printStackTrace();
 		}
 	}
-	//PetId-----> from 0 to 10
+	//PetId-----> from 1 to 10
 }
