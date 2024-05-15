@@ -38,6 +38,7 @@ Create table AdoptionEvents (
     EventDate DATETIME,
     Location VARCHAR(255)
 );
+select * from Donations where DononName ="Hari"
 
 DROP table if exists Participants;
 Create Table Participants (
@@ -125,6 +126,8 @@ Values
 (19, 'Vihaan Sharma', 'Shelter', 10),
 (20, 'Ananya', 'Adopter', 10);
 
+ALTER TABLE pets
+DROP COLUMN OwnerId;
 
 select * from pets;
 select * from shelters;

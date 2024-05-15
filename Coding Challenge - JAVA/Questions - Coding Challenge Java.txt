@@ -1,0 +1,28 @@
+Pets
+_______________________
+1) Show Pets
+2) Show By PetId
+3) ShowByType
+4) ShowByBreed
+5) Add Pet
+ 
+Shelters :
+________________________
+6)ShowShelters
+7)AddShelter
+8)ShowByLocation
+9)ShowBySHelterId
+ 
+Donations :
+________________________ 
+10)ShowDonationsByDonaorName
+11)ShowDonations
+12)Add Donation
+13)ShowDonation(startdate,enddate)
+14)UpdateDonation
+ 
+AdoptionEvents
+_______________________ 
+15)AddAdoption
+16)ShowAdoptions
+ 
