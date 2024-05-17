@@ -1,6 +1,7 @@
 package com.java.crime.model;
 
 import java.sql.Date;
+import java.util.Objects;
 
 public class Reports {
 
@@ -65,5 +66,23 @@ public class Reports {
 		ReportDetails = reportDetails;
 		Status = status;
 	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(IncidentID, ReportDate, ReportDetails, ReportID, ReportingOfficer, Status);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Reports other = (Reports) obj;
+		return Objects.equals(IncidentID, other.IncidentID) && Objects.equals(ReportDate, other.ReportDate)
+				&& Objects.equals(ReportDetails, other.ReportDetails) && Objects.equals(ReportID, other.ReportID)
+				&& Objects.equals(ReportingOfficer, other.ReportingOfficer) && Objects.equals(Status, other.Status);
+	}
+	
 	
 }

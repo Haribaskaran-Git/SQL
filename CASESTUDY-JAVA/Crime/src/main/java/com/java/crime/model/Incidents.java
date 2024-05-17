@@ -1,6 +1,7 @@
 package com.java.crime.model;
 
 import java.sql.Date;
+import java.util.Objects;
 
 public class Incidents {
 	private Integer IncidentID;
@@ -85,7 +86,7 @@ public class Incidents {
 	}
 	public Incidents(Integer incidentID, String incidentType, Date incidentDate, Double latitude, Double longitude,
 			String description, String status, Integer victimID, Integer suspectID, Integer agencyID) {
-		super();
+		
 		IncidentID = incidentID;
 		IncidentType = incidentType;
 		IncidentDate = incidentDate;
@@ -97,5 +98,42 @@ public class Incidents {
 		SuspectID = suspectID;
 		AgencyID = agencyID;
 	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(IncidentID, Description, IncidentDate,  IncidentType, Latitude, Longitude, Status,
+				SuspectID, VictimID,AgencyID);
+	}
+//	@Override
+//	public boolean equals(Object obj) {
+//		Incidents incidents = (Incidents)obj;
+//		if(incidents.getIncidentID() == IncidentID && incidents.getDescription() == Description && incidents.getIncidentDate()
+//				== IncidentDate && incidents.getIncidentType() == IncidentType && incidents.getLatitude() == Latitude
+//				 && incidents.getLongitude() == Longitude && incidents.getStatus() == Status && incidents.getSuspectID()
+//				 == SuspectID && incidents.getVictimID() == VictimID && incidents.getAgencyID() == AgencyID) {
+//			return true;
+//		}
+//		return false;
+	@Override
+	public boolean equals(Object obj) {
+	    if (this == obj) {
+	        return true;
+	    }
+	    if (obj == null || getClass() != obj.getClass()) {
+	        return false;
+	    }
+	    Incidents incidents = (Incidents) obj;
+	    return Objects.equals(IncidentID, incidents.IncidentID) &&
+	           Objects.equals(IncidentType, incidents.IncidentType) &&
+	           Objects.equals(IncidentDate, incidents.IncidentDate) &&
+	           Objects.equals(Latitude, incidents.Latitude) &&
+	           Objects.equals(Longitude, incidents.Longitude) &&
+	           Objects.equals(Description, incidents.Description) &&
+	           Objects.equals(Status, incidents.Status) &&
+	           Objects.equals(VictimID, incidents.VictimID) &&
+	           Objects.equals(SuspectID, incidents.SuspectID) &&
+	           Objects.equals(AgencyID, incidents.AgencyID);
+	}
+	
     
 }

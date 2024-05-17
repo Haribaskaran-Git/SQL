@@ -1,5 +1,7 @@
 package com.java.crime.model;
 
+import java.util.Objects;
+
 public class Evidence {
 	private Integer EvidenceID ;
 	private String Description  ;
@@ -35,15 +37,27 @@ public class Evidence {
 				+ LocationFound + ", IncidentID=" + IncidentID + "]";
 	}
 	public Evidence(Integer evidenceID, String description, String locationFound, Integer incidentID) {
-		super();
+	
 		EvidenceID = evidenceID;
 		Description = description;
 		LocationFound = locationFound;
 		IncidentID = incidentID;
 	}
 	public Evidence() {
-		super();
-		// TODO Auto-generated constructor stub
+		
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(Description, EvidenceID, IncidentID, LocationFound);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		Evidence evidence = (Evidence)obj;
+		if(evidence.getEvidenceID()==EvidenceID && evidence.getDescription()==Description && evidence.getLocationFound()
+				== LocationFound && evidence.getIncidentID() == IncidentID) {
+			return true;
+		}
+		return false;
 	}
     
 

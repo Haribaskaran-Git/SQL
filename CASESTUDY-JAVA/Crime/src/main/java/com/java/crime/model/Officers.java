@@ -1,5 +1,7 @@
 package com.java.crime.model;
 
+import java.util.Objects;
+
 public class Officers {
 
 	private Integer OfficerID ;
@@ -80,5 +82,27 @@ public class Officers {
 		Address = address;
 		AgencyID = agencyID;
 	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(Address, AgencyID, BadgeNumber, FirstName, LastName, OfficerID, PhoneNumber, Ranking);
+	}
+	@Override
+	public boolean equals(Object obj) {
+	    if (this == obj)
+	        return true;
+	    if (obj == null || getClass() != obj.getClass())
+	        return false;
+	    Officers other = (Officers) obj;
+	    return Objects.equals(OfficerID, other.OfficerID) &&
+	           Objects.equals(FirstName, other.FirstName) &&
+	           Objects.equals(LastName, other.LastName) &&
+	           Objects.equals(BadgeNumber, other.BadgeNumber) &&
+	           Objects.equals(Ranking, other.Ranking) &&
+	           Objects.equals(PhoneNumber, other.PhoneNumber) &&
+	           Objects.equals(Address, other.Address) &&
+	           Objects.equals(AgencyID, other.AgencyID);
+	}
+
+	
 	
 }

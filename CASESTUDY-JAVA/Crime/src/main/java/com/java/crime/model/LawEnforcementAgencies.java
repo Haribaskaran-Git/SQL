@@ -1,5 +1,7 @@
 package com.java.crime.model;
 
+import java.util.Objects;
+
 public class LawEnforcementAgencies {
 	private Integer AgencyID ;
 	private String AgencyName;
@@ -54,6 +56,25 @@ public class LawEnforcementAgencies {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(Address, AgencyID, AgencyName, Jurisdiction, PhoneNumber);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+	    if (this == obj) return true;
+	    if (obj == null || getClass() != obj.getClass()) return false;
+	    LawEnforcementAgencies law = (LawEnforcementAgencies) obj;
+	    return Objects.equals(AgencyID, law.AgencyID) &&
+	           Objects.equals(AgencyName, law.AgencyName) &&
+	           Objects.equals(Jurisdiction, law.Jurisdiction) &&
+	           Objects.equals(PhoneNumber, law.PhoneNumber) &&
+	           Objects.equals(Address, law.Address);
+	}
+
+	
+}
 	
 
-}
+
