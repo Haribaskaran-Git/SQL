@@ -72,3 +72,6 @@ public class CreateIncidentMain {
 	}
 
 }
+// victim id can be 30
+// suspectid can be 15
+// angencyid can be 45

@@ -32,3 +32,4 @@ public class ShowReportsbyStatus {
 		
 	}
 }
+//status are draft,finalized
