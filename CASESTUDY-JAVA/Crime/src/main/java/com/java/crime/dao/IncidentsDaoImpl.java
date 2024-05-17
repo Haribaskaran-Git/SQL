@@ -96,12 +96,6 @@ public class IncidentsDaoImpl implements IncidentsDao {
 
 
 
-
-
-
-	
-
-
 	@Override
 	
 	public Boolean CreateIncident(Incidents incident) throws ClassNotFoundException, SQLException {
